@@ -1,0 +1,39 @@
+{
+    "name": "imatic/testing-bundle",
+    "type": "library",
+    "description": "Imatic Testing Bundle",
+    "keywords": [],
+    "homepage": "http://imatic.cz",
+    "license": "Imatic",
+    "authors": [
+        {
+            "name": "Stepan Koci",
+            "email": "stepan.koci@imatic.cz"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "symfony/css-selector": "2.2.*",
+        "symfony/http-kernel": "2.2.*",
+        "symfony/validator": "2.2.*",
+        "symfony/browser-kit": "2.2.*",
+        "symfony/finder": "2.2.*",
+        "symfony/form": "2.2.*",
+        "symfony/yaml": "2.2.*",
+        "symfony/process": "2.2.*",
+        "symfony/class-loader": "2.2.*",
+        "symfony/twig-bundle": "2.2.*",
+        "symfony/security-bundle": "2.2.*",
+        "symfony/monolog-bundle": "2.2.*",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
+        "sonata-project/cache-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Imatic\\Bundle\\TestingBundle": "" }
+    },
+    "target-dir": "Imatic/Bundle/TestingBundle",
+    "minimum-stability": "dev"
+}
