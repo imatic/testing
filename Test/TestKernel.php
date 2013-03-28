@@ -1,6 +1,6 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\Fixtures\TestProject;
+namespace Imatic\Bundle\TestingBundle\Test;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
