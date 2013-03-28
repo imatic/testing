@@ -1,7 +1,3 @@
-imports:
-    # bundle admins
-    - { resource: '@ImaticDirectoryBundle/Resources/config/admin.yml' }
-
 framework:
     secret:                     test
     test: ~
@@ -30,7 +26,7 @@ doctrine:
             default:
                 driver:         pdo_sqlite
                 memory:         true
-                path:           %kernel.root_dir%/tmp/test.db
+                path:           %kernel.root_dir%/cache/test.db
 #    dbal:
 #        default_connection:   default
 #        connections:
@@ -38,7 +34,7 @@ doctrine:
 #                driver:   pdo_pgsql
 #                host:     localhost
 #                port:     5432
-#                dbname:   custom_fields
+#                dbname:   testdb
 #                user:     developer
 #                password: developer
 #                charset:  UTF8
@@ -46,16 +42,7 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping:           true
-        resolve_target_entities:
-            Imatic\Bundle\DirectoryBundle\Model\AddressInterface: App\Bundle\DirectoryBundle\Entity\Address
-            Imatic\Bundle\DirectoryBundle\Model\CompanyInterface: App\Bundle\DirectoryBundle\Entity\Company
-            Imatic\Bundle\DirectoryBundle\Model\CompanyPersonInterface: App\Bundle\DirectoryBundle\Entity\CompanyPerson
-            Imatic\Bundle\DirectoryBundle\Model\ContactInterface: App\Bundle\DirectoryBundle\Entity\Contact
-            Imatic\Bundle\DirectoryBundle\Model\ContactItemInterface: App\Bundle\DirectoryBundle\Entity\ContactItem
-            Imatic\Bundle\DirectoryBundle\Model\ContactTypeInterface: App\Bundle\DirectoryBundle\Entity\ContactType
-            Imatic\Bundle\DirectoryBundle\Model\EmailInterface: App\Bundle\DirectoryBundle\Entity\Email
-            Imatic\Bundle\DirectoryBundle\Model\PersonInterface: App\Bundle\DirectoryBundle\Entity\Person
-            Imatic\Bundle\DirectoryBundle\Model\PhoneInterface: App\Bundle\DirectoryBundle\Entity\Phone
+        resolve_target_entities: []
 
 monolog:
     handlers:

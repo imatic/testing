@@ -35,7 +35,8 @@ class TestKernel extends Kernel
             new \Sonata\CacheBundle\SonataCacheBundle(),
             new \Sonata\jQueryBundle\SonatajQueryBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle()
+            new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+            new \Imatic\Bundle\TestingBundle\ImaticTestingBundle(),
         );
 
         return $bundles;
