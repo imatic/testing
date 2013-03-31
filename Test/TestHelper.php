@@ -19,7 +19,7 @@ class TestHelper
         $application->run(
             new ArrayInput(
                 array(
-                    '-q' => null,
+                    //'-q' => null,
                     '-e' => 'test',
                     '--force' => null,
                     'command' => 'doctrine:database:drop'
@@ -31,7 +31,7 @@ class TestHelper
         $application->run(
             new ArrayInput(
                 array(
-                    '-q' => null,
+                    //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:database:create'
                 )
@@ -42,7 +42,7 @@ class TestHelper
         $application->run(
             new ArrayInput(
                 array(
-                    '-q' => null,
+                    //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:schema:create'
                 )
@@ -53,7 +53,7 @@ class TestHelper
         $application->run(
             new ArrayInput(
                 array(
-                    '-q' => null,
+                    //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:fixtures:load',
                     '--no-interaction' => true,
