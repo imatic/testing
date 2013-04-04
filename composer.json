@@ -25,8 +25,8 @@
         "symfony/security-bundle": "2.2.*",
         "symfony/monolog-bundle": "2.2.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "sonata-project/admin-bundle": "dev-master",
-        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
+        "sonata-project/admin-bundle": "~2.1",
+        "sonata-project/doctrine-orm-admin-bundle": "~2.1",
         "sonata-project/cache-bundle": "dev-master",
         "phpunit/phpunit": "3.7.*"
     },
