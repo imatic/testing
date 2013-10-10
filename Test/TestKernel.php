@@ -30,12 +30,6 @@ class TestKernel extends Kernel
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new \Sonata\AdminBundle\SonataAdminBundle(),
-            new \Sonata\BlockBundle\SonataBlockBundle(),
-            new \Sonata\CacheBundle\SonataCacheBundle(),
-            new \Sonata\jQueryBundle\SonatajQueryBundle(),
-            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new \Imatic\Bundle\TestingBundle\ImaticTestingBundle(),
         );
 

@@ -75,9 +75,3 @@ security:
 
     access_control:
         - { path: ^/admin, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
-
-sonata_block:
-    default_contexts:           [admin]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts:           [admin]
