@@ -12,8 +12,9 @@ class TestHelper
      * Reload database
      *
      * @param Application $application
+     * @param bool $loadData
      */
-    public function reloadDatabase(Application $application)
+    public function reloadDatabase(Application $application, $loadData = true)
     {
         // drop database
         $application->run(
@@ -49,17 +50,19 @@ class TestHelper
             )
         );
 
-        // load fixtures
-        $application->run(
-            new ArrayInput(
-                array(
-                    //'-q' => null,
-                    '-e' => 'test',
-                    'command' => 'doctrine:fixtures:load',
-                    '--no-interaction' => true,
+        if ($loadData) {
+            // load fixtures
+            $application->run(
+                new ArrayInput(
+                    array(
+                        //'-q' => null,
+                        '-e' => 'test',
+                        'command' => 'doctrine:fixtures:load',
+                        '--no-interaction' => true,
+                    )
                 )
-            )
-        );
+            );
+        }
     }
 
     /**
