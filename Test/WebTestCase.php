@@ -1,15 +1,22 @@
 <?php
-
 namespace Imatic\Bundle\TestingBundle\Test;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WebTestCase extends BaseWebTestCase
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected static $firstContainer;
+
+    protected function tearDown()
+    {
+        $this->rollbackTransaction();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -30,9 +37,39 @@ class WebTestCase extends BaseWebTestCase
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        $helper = new TestHelper();
-        $helper->reloadDatabase($application);
+        if (static::$firstContainer === null) {
+            $helper = new TestHelper();
+            $helper->reloadDatabase($application);
+            static::$firstContainer = $client->getContainer();
+        }
+        static::startTransaction();
 
         return $client;
+    }
+
+    protected static function startTransaction()
+    {
+        foreach (static::$firstContainer->get('doctrine')->getManagers() as $om) {
+            if ($om->getConnection()->isTransactionActive()) {
+                continue;
+            }
+            $om->clear();
+            $om->getConnection()->beginTransaction();
+        }
+    }
+
+    protected function rollbackTransaction()
+    {
+        if (static::$firstContainer === null) {
+            return;
+        }
+
+        foreach (static::$firstContainer->get('doctrine')->getManagers() as $om) {
+            $connection = $om->getConnection();
+
+            while ($connection->isTransactionActive()) {
+                $connection->rollback();
+            }
+        }
     }
 }
