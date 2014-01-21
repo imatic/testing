@@ -14,7 +14,7 @@ class WebTestCase extends BaseWebTestCase
 
     protected function tearDown()
     {
-        $this->rollbackTransaction();
+        static::rollbackTransaction();
     }
 
     /**
@@ -58,7 +58,7 @@ class WebTestCase extends BaseWebTestCase
         }
     }
 
-    protected function rollbackTransaction()
+    protected static function rollbackTransaction()
     {
         if (static::$firstContainer === null) {
             return;
