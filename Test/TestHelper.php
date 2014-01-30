@@ -12,7 +12,7 @@ class TestHelper
      * Reload database
      *
      * @param Application $application
-     * @param bool $loadData
+     * @param bool        $loadData
      */
     public function reloadDatabase(Application $application, $loadData = true)
     {
