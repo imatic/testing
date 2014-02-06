@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-define('ROOT_DIR', __DIR__ . '/../..');
+define('ROOT_DIR', __DIR__ . '/../../../../../..');
 define('BUNDLE_NAME_HOLDER', 'TestsTemplate');
 define('TESTS_DIR', ROOT_DIR . '/Tests');
 define('TEST_PROJECT_ROOT_DIR', TESTS_DIR . '/Fixtures/TestProject');
@@ -12,11 +12,30 @@ use Symfony\Component\Filesystem\Filesystem;
 
 $fs = new FileSystem();
 $fs->mirror(TEMPLATES_DIR, TESTS_DIR);
+removeGitKeepFiles(TESTS_DIR);
 
 $bundleName = getBundleName();
 updateTemplateFiles(TESTS_DIR);
 makeCacheAndLogDirs();
 updateGitignore();
+
+function removeGitKeepFiles($path)
+{
+    global $fs;
+
+    $files = array_filter(scandir($path), function($fileName) {
+        return !in_array($fileName, ['.', '..']);
+    });
+
+    foreach ($files as $fileName) {
+        $filePath = filePath($path, $fileName);
+        if (is_dir($filePath)) {
+            removeGitKeepFiles($filePath);
+        } elseif ($fileName === '.gitkeep') {
+            $fs->remove($filePath);
+        }
+    }
+}
 
 function updateTemplateFiles($path)
 {
