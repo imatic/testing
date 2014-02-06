@@ -39,21 +39,31 @@ Initialize testing project
         "imatic/testing-bundle": "dev-master"
     },
 
-* Directory structure
+* After composer install
+
+.. sourcecode:: bash
+
+    $ ./vendor/bin/init-testingbundle
+
+* Created directory structure
 
 .. sourcecode:: text
 
-    Tests/Fixtures
-        TestProject
-            config
-                config.yml
-                routing.yml
-            XYZBundle (same name as tested bundle)
-                AppXYZBundle.php (dtto)
-            console
-            TestKernel.php
+    Tests
+        Fixtures
+            TestProject
+                config
+                    config.yml
+                    routing.yml
+                XYZBundle (same name as tested bundle)
+                    AppXYZBundle.php (dtto)
+                console
+                TestKernel.php
+                WebTestCase.php
+        Functional
+        Integration
+        Unit
         bootstrap.php
-        WebTestCase.php
 
 * note: content of files must be configured according with tested bundle name (see content of example files)
 * example https://bitbucket.org/imatic/imatic-directorybundle/src
