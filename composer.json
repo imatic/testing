@@ -19,6 +19,9 @@
         "symfony/monolog-bundle": "~2.3",
         "phpunit/phpunit": "3.7.*"
     },
+    "bin": [
+        "init-testingbundle"
+    ],
     "autoload": {
         "psr-0": { "Imatic\\Bundle\\TestingBundle": "" }
     },
