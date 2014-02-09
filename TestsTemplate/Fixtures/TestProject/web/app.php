@@ -1,8 +1,6 @@
 <?php
-/**
- * @author Miloslav Nenadal <miloslav.nenadal@imatic.cz>
- */
 require __DIR__ . '/../../../bootstrap.php';
+umask(0007);
 
 use Symfony\Component\HttpFoundation\Request;
 use Imatic\Bundle\TestsTemplateBundle\Tests\Fixtures\TestProject\TestKernel;
