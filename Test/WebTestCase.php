@@ -4,6 +4,7 @@ namespace Imatic\Bundle\TestingBundle\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class WebTestCase extends BaseWebTestCase
 {
@@ -34,17 +35,21 @@ class WebTestCase extends BaseWebTestCase
         $client = parent::createClient($options, $server);
         $kernel = $client->getKernel();
 
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
-
         if (static::$firstContainer === null) {
-            $helper = new TestHelper();
-            $helper->reloadDatabase($application);
             static::$firstContainer = $client->getContainer();
+            static::initData($kernel);
         }
         static::startTransaction();
 
         return $client;
+    }
+
+    protected static function initData(KernelInterface $kernel)
+    {
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+        $helper = new TestHelper();
+        $helper->reloadDatabase($application);
     }
 
     protected static function startTransaction()
