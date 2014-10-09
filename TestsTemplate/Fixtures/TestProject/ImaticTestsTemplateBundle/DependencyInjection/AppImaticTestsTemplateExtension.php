@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class AppImaticDataExtension extends Extension
+class AppImaticTestsTemplateExtension extends Extension
 {
     /**
      * {@inheritDoc}
