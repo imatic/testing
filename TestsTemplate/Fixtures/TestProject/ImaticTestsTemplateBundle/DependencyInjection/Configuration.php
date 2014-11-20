@@ -1,5 +1,5 @@
 <?php
-namespace Imatic\Bundle\TestsTemplateBundle\DependencyInjection;
+namespace Imatic\Bundle\TestsTemplateBundle\Tests\Fixtures\TestProject\ImaticTestsTemplateBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -12,7 +12,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('imatic_tests_template');
+        $rootNode = $treeBuilder->root('app_imatic_tests_template');
 
         return $treeBuilder;
     }
