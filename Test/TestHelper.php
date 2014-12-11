@@ -2,12 +2,16 @@
 
 namespace Imatic\Bundle\TestingBundle\Test;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Filesystem\Filesystem;
 
 class TestHelper
 {
+    protected $onUpdateSchema = [];
+
     /**
      * Reload database
      *
@@ -15,6 +19,28 @@ class TestHelper
      * @param bool        $loadData
      */
     public function reloadDatabase(Application $application, $loadData = true)
+    {
+        $updateSchema = true;
+
+        /**
+         * because of the dbal issue, mysql can't be updated before tests inside the same application
+         * @link http://www.doctrine-project.org/jira/browse/DBAL-1067
+         */
+        if ($this->isRunningOnMysql($application)) {
+            $this->truncateMysqlTables($application);
+            $updateSchema = false;
+        }
+
+        if ($updateSchema) {
+            $this->updateSchema($application);
+        }
+
+        if ($loadData) {
+            $this->loadData($application);
+        }
+    }
+
+    protected function updateSchema(Application $application)
     {
         // drop database
         $application->run(
@@ -50,18 +76,64 @@ class TestHelper
             )
         );
 
-        if ($loadData) {
-            // load fixtures
-            $application->run(
-                new ArrayInput(
-                    array(
-                        //'-q' => null,
-                        '-e' => 'test',
-                        'command' => 'doctrine:fixtures:load',
-                        '--no-interaction' => true,
-                    )
+        foreach ($this->onUpdateSchema as $cb) {
+            $cb($application);
+        }
+    }
+
+    protected function loadData(Application $application)
+    {
+        // load fixtures
+        $application->run(
+            new ArrayInput(
+                array(
+                    //'-q' => null,
+                    '-e' => 'test',
+                    'command' => 'doctrine:fixtures:load',
+                    '--no-interaction' => true,
                 )
-            );
+            )
+        );
+    }
+
+    protected function isRunningOnMysql(Application $application)
+    {
+        $container = $application->getKernel()->getContainer();
+        if ($container->has('doctrine.dbal.default_connection')) {
+            /* @var $connection Connection */
+            $connection = $container->get('doctrine.dbal.default_connection');
+            if ($connection->getDatabasePlatform() instanceof MySqlPlatform) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function truncateMysqlTables(Application $application)
+    {
+        /* @var $connection Connection */
+        $connection = $application->getKernel()->getContainer()->get('doctrine.dbal.default_connection');
+
+        $result = $connection
+            ->executeQuery('
+                SELECT table_name
+                FROM information_schema.tables
+                WHERE table_schema = :db
+            ', [
+                ':db' => $connection->getDatabase(),
+            ])
+            ->fetchAll()
+        ;
+
+        if ($result) {
+            $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0')->execute();
+            $tables = array_map([$connection, 'quoteIdentifier'], array_map('current', $result));
+            foreach ($tables as $table) {
+                $connection->executeQuery(sprintf('TRUNCATE TABLE %s', $table))->execute();
+            }
+
+            $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1')->execute();
         }
     }
 
@@ -75,5 +147,10 @@ class TestHelper
     {
         $fs = new Filesystem();
         $fs->symlink($origin, $target);
+    }
+
+    public function registerOnUpdateSchemaCb(\Closure $cb)
+    {
+        $this->onUpdateSchema[] = $cb;
     }
 }
