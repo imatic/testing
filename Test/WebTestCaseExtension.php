@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Miloslav Nenadal <miloslav.nenadal@imatic.cz>
  */
-trait TestCaseExtension
+trait WebTestCaseExtension
 {
     public static function assertResponseHasCode($code, Response $response, $message = '')
     {
