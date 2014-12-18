@@ -8,6 +8,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class WebTestCase extends BaseWebTestCase
 {
+    use TestCaseExtension;
+
     /**
      * @var ContainerInterface
      */
