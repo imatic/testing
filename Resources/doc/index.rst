@@ -4,26 +4,17 @@ Testing
 Initialize test environment
 ---------------------------
 
-``composer install --dev``
+``composer install``
 
 Run tests
 ---------
 
-``phpunit``
+``./vendor/bin/phpunit``
 
 Initialize testing project
 ==========================
 
 * Add phpunit.xml.dist
-* Add to gitignore:
-
-.. sourcecode:: text
-
-    vendor
-    Tests/Fixtures/TestProject/cache
-    Tests/Fixtures/TestProject/logs
-    Tests/Fixtures/TestProject/ProjectBundle/DataFixtures
-    Tests/Fixtures/TestProject/ProjectBundle/Entity
 
 * Add to composer.json
 
@@ -65,5 +56,50 @@ Initialize testing project
         Unit
         bootstrap.php
 
-* note: content of files must be configured according with tested bundle name (see content of example files)
 * example https://bitbucket.org/imatic/imatic-directorybundle/src
+
+PHPUnit
+=======
+
+Constraints
+-----------
+
+ResponseHasCode
+^^^^^^^^^^^^^^^
+
+.. sourcecode:: php
+
+   <?php
+
+   use Imatic\Bundle\TestingBundle\Test\WebTestCase;
+
+   class ExampleTestCase extends WebTestCase
+   {
+       public function testHomepageReturnsOk()
+       {
+           $client = static::createClient();
+           $client->request('GET', '/');
+
+           $this->assertResponseHasCode(200, $client->getResponse());
+       }
+   }
+
+* advantage in comparison with asserting 200 with ``$client->getResponse()->getStatusCode()`` is that the special assert gives you informations about what went wrong instead of giving you just wrong code of the response (e.g. 500)
+
+
+ScriptHandler
+=============
+
+* if you put following into your composer.json, symlink for bower files located at view testing bundle will be created under your testing bundle, so you don't have to copy bower files in order to use templates from view bundle
+
+.. sourcecode:: json
+
+   "scripts": {
+        "post-install-cmd": [
+            "Imatic\\Bundle\\TestingBundle\\Composer\\ScriptHandler::symlinkBowerIfNotExists"
+        ],
+        "post-update-cmd": [
+            "Imatic\\Bundle\\TestingBundle\\Composer\\ScriptHandler::symlinkBowerIfNotExists"
+        ]
+    },
+
