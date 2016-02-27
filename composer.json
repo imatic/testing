@@ -12,27 +12,25 @@
         }
     ],
     "require": {
-        "symfony/symfony": "~2.6",
-        "doctrine/orm": ">=2.2.3",
-        "doctrine/doctrine-bundle": ">=1.2",
-        "doctrine/doctrine-fixtures-bundle": ">=2.2.0",
-        "symfony/monolog-bundle": "~2.6",
-        "phpunit/phpunit": ">=3.7.0"
+        "php": ">=5.4",
+        "symfony/symfony": "~2.7|~3.0",
+        "doctrine/orm": "~2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "symfony/monolog-bundle": "~2.7|~3.0",
+        "phpunit/phpunit": "~5.1"
     },
     "bin": [
         "init-testingbundle"
     ],
     "autoload": {
-        "psr-0": {
-            "Imatic\\Bundle\\TestingBundle": ""
+        "psr-4": {
+            "Imatic\\Bundle\\TestingBundle\\": ""
         }
     },
-    "target-dir": "Imatic/Bundle/TestingBundle",
-    "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.6.x-dev"
-        }
+    "config": {
+        "secure-http": false
     },
-    "require-dev": []
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

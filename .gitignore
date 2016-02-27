@@ -1,1 +1,5 @@
 /vendor/
+/.idea
+/phpunit.xml
+/nbproject
+/.DS_Store
