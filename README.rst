@@ -51,7 +51,7 @@ Initialize testing project
         Unit
         bootstrap.php
 
-* Directory structure above is created based on template in `TestsTemplate <TestsTemplate>`_ directory
+* Directory structure above is created based on template in `TestsTemplate <Resources/skeleton/TestsTemplate>`_ directory
 
 PHPUnit
 =======
