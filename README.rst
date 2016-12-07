@@ -26,7 +26,7 @@ Initialize testing project
 
 .. sourcecode:: bash
 
-    $ ./vendor/bin/init-testingbundle
+    $ ./vendor/bin/testingbundle-init
 
 
 * Command above should create directory structure similar to

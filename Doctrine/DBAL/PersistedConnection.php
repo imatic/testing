@@ -27,6 +27,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Connection as DriverConnection;
 
 /**
+ * @see https://gist.github.com/makasim/f1e28c9bc9458f20f38f
+ *
  * Connection wrapper sharing the same db handle across multiple requests
  *
  * Allows multiple Connection instances to run in the same transaction

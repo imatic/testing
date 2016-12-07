@@ -29,7 +29,6 @@ class TestKernel extends Kernel
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new \Imatic\Bundle\TestingBundle\ImaticTestingBundle(),
         );
 
