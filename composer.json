@@ -11,7 +11,7 @@
             "homepage": "http://imatic.cz/"
         }
     ],
-    "require-dev": {
+    "require": {
         "php": ">=5.4",
         "symfony/symfony": "~2.7|~3.0",
         "doctrine/doctrine-bundle": "~1.2",
@@ -21,7 +21,7 @@
     "bin": [
         "testingbundle-init"
     ],
-    "autoload-dev": {
+    "autoload": {
         "psr-4": {
             "Imatic\\Bundle\\TestingBundle\\": ""
         }
