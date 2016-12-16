@@ -95,7 +95,15 @@ function getBundleName()
         throw new \RuntimeException('Exactly one file "/^.*Bundle.php$/" not found in your project root!');
     }
 
-    return str_replace('Imatic', '', str_replace('Bundle.php', '', reset($bundleFiles)));
+    $bundleFile = implode('/', [ROOT_DIR, reset($bundleFiles)]);
+    $matches = [];
+    if (!preg_match('/\bnamespace\s+\b([^\\\]+)\\\/i', file_get_contents($bundleFile), $matches)) {
+        throw new \RuntimeException('Cannot determine vendor name from namespace of the bundle classs.');
+    }
+
+    $vendorName = $matches[1];
+
+    return str_replace($vendorName, '', str_replace('Bundle.php', '', reset($bundleFiles)));
 }
 
 function filePath($path, $file)
