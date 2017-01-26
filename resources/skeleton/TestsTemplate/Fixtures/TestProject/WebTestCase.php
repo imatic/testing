@@ -1,7 +1,7 @@
 <?php
 namespace Imatic\Bundle\TestsTemplateBundle\Tests\Fixtures\TestProject;
 
-use Imatic\Bundle\TestingBundle\Test\WebTestCase as BaseWebTestCase;
+use Imatic\Testing\Test\WebTestCase as BaseWebTestCase;
 
 class WebTestCase extends BaseWebTestCase
 {

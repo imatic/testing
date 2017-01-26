@@ -16,11 +16,11 @@ Initialize testing project
 
 * Add `phpunit.xml.dist <https://phpunit.de/manual/current/en/appendixes.configuration.html>`_ to your repository to configure `phpunit <https://phpunit.de/>`__
 
-* Add imatic-testingbundle into your dev dependencies
+* Add imatic-testing into your dev dependencies
 
 .. sourcecode:: bash
 
-   $ composer require --dev 'imatic/testingbundle'
+   $ composer require --dev 'imatic/testing'
 
 * Create required files in your `bundle <bundle_>`_
 
@@ -68,7 +68,7 @@ This constraint can be used to assert status codes in `symfony functional tests 
 
    <?php
 
-   use Imatic\Bundle\TestingBundle\Test\WebTestCase;
+   use Imatic\Testing\Test\WebTestCase;
 
    class ExampleTestCase extends WebTestCase
    {
@@ -195,7 +195,7 @@ Writing tests working with database
         dbal:
             connections:
                 default:
-                    wrapper_class: "Imatic\\Bundle\\TestingBundle\\Doctrine\\DBAL\\PersistedConnection"
+                    wrapper_class: "Imatic\\Testing\\Doctrine\\DBAL\\PersistedConnection"
 
 Testing project configuration
 =============================

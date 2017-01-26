@@ -1,6 +1,6 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\PHPUnit\Constraint;
+namespace Imatic\Testing\PHPUnit\Constraint;
 
 use PHPUnit_Framework_Constraint;
 use Symfony\Component\HttpFoundation\Response;

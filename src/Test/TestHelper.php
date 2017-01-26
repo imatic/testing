@@ -1,6 +1,6 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\Test;
+namespace Imatic\Testing\Test;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySqlPlatform;

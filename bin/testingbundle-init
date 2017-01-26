@@ -1,10 +1,11 @@
 #!/usr/bin/env php
 <?php
-define('ROOT_DIR', __DIR__ . '/../../..');
+
+define('ROOT_DIR', __DIR__ . '/../../../..');
 define('BUNDLE_NAME_HOLDER', 'TestsTemplate');
 define('TESTS_DIR', ROOT_DIR . '/Tests');
 define('TEST_PROJECT_ROOT_DIR', TESTS_DIR . '/Fixtures/TestProject');
-define('TEMPLATES_DIR', ROOT_DIR . '/vendor/imatic/testing-bundle/Resources/skeleton/TestsTemplate');
+define('TEMPLATES_DIR', ROOT_DIR . '/vendor/imatic/testing-bundle/resources/skeleton/TestsTemplate');
 
 require ROOT_DIR . '/vendor/autoload.php';
 

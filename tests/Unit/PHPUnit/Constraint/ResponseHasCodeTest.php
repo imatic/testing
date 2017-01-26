@@ -1,8 +1,8 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\Test\Unit\PHPUnit\Constraint;
+namespace Imatic\Testing\Test\Unit\PHPUnit\Constraint;
 
-use Imatic\Bundle\TestingBundle\PHPUnit\Constraint\ResponseHasCode;
+use Imatic\Testing\PHPUnit\Constraint\ResponseHasCode;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Response;
 

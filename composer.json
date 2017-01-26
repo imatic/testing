@@ -1,7 +1,6 @@
 {
-    "name": "imatic/testing-bundle",
-    "type": "symfony-bundle",
-    "description": "Bundle to make testing of Symfony bundles easier",
+    "name": "imatic/testing",
+    "description": "Library to make testing of Symfony bundles easier",
     "keywords": ["testing", "symfony"],
     "homepage": "https://www.imatic.cz",
     "license": "MIT",
@@ -18,12 +17,15 @@
         "symfony/monolog-bundle": "~2.7|~3.0",
         "phpunit/phpunit": "~5.1"
     },
+    "require-dev": {
+        "pds/skeleton": "~1.0"
+    },
     "bin": [
-        "testingbundle-init"
+        "bin/testingbundle-init"
     ],
     "autoload": {
         "psr-4": {
-            "Imatic\\Bundle\\TestingBundle\\": ""
+            "Imatic\\Testing\\": "src/"
         }
     },
     "prefer-stable": true,

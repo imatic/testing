@@ -1,6 +1,6 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\Test;
+namespace Imatic\Testing\Test;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;

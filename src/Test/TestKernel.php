@@ -1,6 +1,6 @@
 <?php
 
-namespace Imatic\Bundle\TestingBundle\Test;
+namespace Imatic\Testing\Test;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -29,7 +29,6 @@ class TestKernel extends Kernel
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Imatic\Bundle\TestingBundle\ImaticTestingBundle(),
         );
 
         return $bundles;
