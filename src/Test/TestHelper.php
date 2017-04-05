@@ -46,9 +46,9 @@ class TestHelper
         $application->run(
             new ArrayInput(
                 array(
-                    //'-q' => null,
                     '-e' => 'test',
                     '--force' => null,
+                    '--if-exists' => null,
                     'command' => 'doctrine:database:drop'
                 )
             )
