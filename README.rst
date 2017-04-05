@@ -15,6 +15,16 @@ Initialize testing project
 ==========================
 
 * Add `phpunit.xml.dist <https://phpunit.de/manual/current/en/appendixes.configuration.html>`_ to your repository to configure `phpunit <https://phpunit.de/>`__
+* Set KERNEL_DIR server variable so that phpunit finds symfony kernel
+
+.. sourcecode:: xml
+
+   <!-- phpunit.xml.dist -->
+   <phpunit>
+       <php>
+           <server name="KERNEL_DIR" value="Tests/Fixtures/TestProject"/>
+       </php>
+   </phpunit>
 
 * Add imatic-testing into your dev dependencies
 

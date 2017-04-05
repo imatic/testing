@@ -23,14 +23,6 @@ class WebTestCase extends BaseWebTestCase
     /**
      * {@inheritDoc}
      */
-    protected static function getKernelClass()
-    {
-        throw new \LogicException(sprintf('You must implement method %s in your bundle.', __METHOD__));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     protected static function createClient(array $options = array(), array $server = array())
     {
         $server = array_merge($server, array('PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password'));
