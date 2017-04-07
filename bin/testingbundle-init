@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../../../../vendor/autoload.php';
+
+use Imatic\Testing\Command\InitTesting;
+use Symfony\Component\Console\Application;
+
+$application = (new Application())
+  ->add(new InitTesting())
+  ->getApplication();
+
+$application->setDefaultCommand('init:testing', true);
+$application->run();

@@ -15,18 +15,28 @@ Initialize testing project
 ==========================
 
 * Add `phpunit.xml.dist <https://phpunit.de/manual/current/en/appendixes.configuration.html>`_ to your repository to configure `phpunit <https://phpunit.de/>`__
+* Set KERNEL_DIR server variable so that phpunit finds symfony kernel
 
-* Add imatic-testingbundle into your dev dependencies
+.. sourcecode:: xml
+
+   <!-- phpunit.xml.dist -->
+   <phpunit>
+       <php>
+           <server name="KERNEL_DIR" value="Tests/Fixtures/TestProject"/>
+       </php>
+   </phpunit>
+
+* Add imatic-testing into your dev dependencies
 
 .. sourcecode:: bash
 
-   $ composer require --dev 'imatic/testingbundle'
+   $ composer require --dev 'imatic/testing'
 
 * Create required files in your `bundle <bundle_>`_
 
 .. sourcecode:: bash
 
-    $ ./vendor/bin/init-testingbundle
+    $ ./vendor/bin/testingbundle-init
 
 
 * Command above should create directory structure similar to
@@ -51,7 +61,7 @@ Initialize testing project
         Unit
         bootstrap.php
 
-* Directory structure above is created based on template in `TestsTemplate <TestsTemplate>`_ directory
+* Directory structure above is created based on template in `TestsTemplate <Resources/skeleton/TestsTemplate>`_ directory
 
 PHPUnit
 =======
@@ -68,7 +78,7 @@ This constraint can be used to assert status codes in `symfony functional tests 
 
    <?php
 
-   use Imatic\Bundle\TestingBundle\Test\WebTestCase;
+   use Imatic\Testing\Test\WebTestCase;
 
    class ExampleTestCase extends WebTestCase
    {
@@ -195,7 +205,7 @@ Writing tests working with database
         dbal:
             connections:
                 default:
-                    wrapper_class: "Imatic\\Bundle\\TestingBundle\\Doctrine\\DBAL\\PersistedConnection"
+                    wrapper_class: "Imatic\\Testing\\Doctrine\\DBAL\\PersistedConnection"
 
 Testing project configuration
 =============================
