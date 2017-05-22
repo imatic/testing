@@ -3,6 +3,7 @@
 namespace Imatic\Testing\Test;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -42,37 +43,37 @@ class TestHelper
 
     protected function updateSchema(Application $application)
     {
+        $dropDatabaseOptions = [
+             '-e' => 'test',
+            '--force' => null,
+            'command' => 'doctrine:database:drop'
+        ];
+        if ($this->supportsListingDatabases($application)) {
+            $dropDatabaseOptions['--if-exists'] = null;
+        }
+
         // drop database
-        $application->run(
-            new ArrayInput(
-                array(
-                    '-e' => 'test',
-                    '--force' => null,
-                    '--if-exists' => null,
-                    'command' => 'doctrine:database:drop'
-                )
-            )
-        );
+        $application->run(new ArrayInput($dropDatabaseOptions));
 
         // create database
         $application->run(
             new ArrayInput(
-                array(
+                [
                     //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:database:create'
-                )
+                ]
             )
         );
 
         // create schema
         $application->run(
             new ArrayInput(
-                array(
+                [
                     //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:schema:create'
-                )
+                ]
             )
         );
 
@@ -86,12 +87,12 @@ class TestHelper
         // load fixtures
         $application->run(
             new ArrayInput(
-                array(
+                [
                     //'-q' => null,
                     '-e' => 'test',
                     'command' => 'doctrine:fixtures:load',
                     '--no-interaction' => true,
-                )
+                ]
             )
         );
     }
@@ -152,5 +153,19 @@ class TestHelper
     public function registerOnUpdateSchemaCb(\Closure $cb)
     {
         $this->onUpdateSchema[] = $cb;
+    }
+
+    private function supportsListingDatabases(Application $application)
+    {
+        /* @var $connection Connection */
+        $connection = $application->getKernel()->getContainer()->get('doctrine.dbal.default_connection');
+
+        try {
+            $connection->getDatabasePlatform()->getListDatabasesSQL();
+        } catch (DBALException $e) {
+            return false;
+        }
+
+        return true;
     }
 }
