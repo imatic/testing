@@ -1,0 +1,14 @@
+image: php:7.1
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - composer
+        script:
+          - apt-get update
+          - apt-get install --yes git
+          - curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - composer install
+
+          - ./vendor/bin/phpunit
