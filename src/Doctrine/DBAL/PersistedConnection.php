@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 **/
-
 namespace Imatic\Testing\Doctrine\DBAL;
 
 use Doctrine\DBAL\Connection;
@@ -112,7 +111,7 @@ class PersistedConnection extends Connection
         $this->setTransactionNestingLevel($this->getPersistedTransactionNestingLevel());
 
         try {
-            call_user_func(array('parent', $method));
+            \call_user_func(['parent', $method]);
         } catch (\Exception $e) {
         }
 
@@ -183,6 +182,6 @@ class PersistedConnection extends Connection
      */
     protected function getConnectionId()
     {
-        return md5(serialize($this->getParams()));
+        return \md5(\serialize($this->getParams()));
     }
 }

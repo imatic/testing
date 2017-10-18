@@ -3,3 +3,6 @@
 /phpunit.xml
 /nbproject
 /.DS_Store
+/.php_cs.cache
+/phpda.svg
+

@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\PHPUnit\Constraint;
 
 use PHPUnit_Framework_Constraint;
@@ -28,6 +27,6 @@ class ResponseHasCode extends PHPUnit_Framework_Constraint
 
     public function toString()
     {
-        return sprintf('is equal to %s (response: "%s")', $this->response->getStatusCode(), $this->response->getContent());
+        return \sprintf('is equal to %s (response: "%s")', $this->response->getStatusCode(), $this->response->getContent());
     }
 }

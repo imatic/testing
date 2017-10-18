@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\Test;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -14,8 +13,8 @@ class TestKernel extends Kernel
         parent::__construct('test', true);
         $config = $this->getRootDir() . '/config/config.yml';
 
-        if (!file_exists($config)) {
-            throw new \RuntimeException(sprintf('The config file "%s" does not exist.', $config));
+        if (!\file_exists($config)) {
+            throw new \RuntimeException(\sprintf('The config file "%s" does not exist.', $config));
         }
 
         $this->config = $config;
@@ -23,13 +22,13 @@ class TestKernel extends Kernel
 
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-        );
+        ];
 
         return $bundles;
     }
@@ -41,16 +40,16 @@ class TestKernel extends Kernel
 
     public function serialize()
     {
-        return serialize(array($this->config));
+        return \serialize([$this->config]);
     }
 
     public function unserialize($str)
     {
-        call_user_func_array(array($this, '__construct'), unserialize($str));
+        \call_user_func_array([$this, '__construct'], \unserialize($str));
     }
 
     public static function getClass()
     {
-        return get_called_class();
+        return \get_called_class();
     }
 }

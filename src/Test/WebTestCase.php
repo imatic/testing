@@ -23,9 +23,9 @@ class WebTestCase extends BaseWebTestCase
     /**
      * {@inheritDoc}
      */
-    protected static function createClient(array $options = array(), array $server = array())
+    protected static function createClient(array $options = [], array $server = [])
     {
-        $server = array_merge($server, array('PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password'));
+        $server = \array_merge($server, ['PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password']);
         $client = parent::createClient($options, $server);
         $kernel = $client->getKernel();
 
