@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\Test;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -16,11 +15,11 @@ class Console
 
     public function run()
     {
-        set_time_limit(0);
+        \set_time_limit(0);
 
         $input = new ArgvInput();
-        $env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ? : 'dev');
-        $debug = getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
+        $env = $input->getParameterOption(['--env', '-e'], \getenv('SYMFONY_ENV') ?: 'dev');
+        $debug = \getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']) && $env !== 'prod';
 
         $kernel = new $this->kernelClass($env, $debug);
         $application = new Application($kernel);

@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\Test;
 
 use Imatic\Testing\PHPUnit\Constraint\ResponseHasCode;

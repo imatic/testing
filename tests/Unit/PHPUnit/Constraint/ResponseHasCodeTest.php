@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\Test\Unit\PHPUnit\Constraint;
 
 use Imatic\Testing\PHPUnit\Constraint\ResponseHasCode;
@@ -24,7 +23,7 @@ class ResponseHasCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit_Framework_ExpectationFailedException
      * @expectedExceptionMessage Failed asserting that 404 is equal to 200 (response: "content").
      */
     public function testInvalidResponseShouldTrowExceptionWithContent()

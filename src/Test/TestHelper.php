@@ -1,5 +1,4 @@
 <?php
-
 namespace Imatic\Testing\Test;
 
 use Doctrine\DBAL\Connection;
@@ -23,8 +22,9 @@ class TestHelper
     {
         $updateSchema = true;
 
-        /**
+        /*
          * because of the dbal issue, mysql can't be updated before tests inside the same application
+         *
          * @link http://www.doctrine-project.org/jira/browse/DBAL-1067
          */
         if ($this->isRunningOnMysql($application)) {
@@ -46,7 +46,7 @@ class TestHelper
         $dropDatabaseOptions = [
              '-e' => 'test',
             '--force' => null,
-            'command' => 'doctrine:database:drop'
+            'command' => 'doctrine:database:drop',
         ];
         if ($this->supportsListingDatabases($application)) {
             $dropDatabaseOptions['--if-exists'] = null;
@@ -61,7 +61,7 @@ class TestHelper
                 [
                     //'-q' => null,
                     '-e' => 'test',
-                    'command' => 'doctrine:database:create'
+                    'command' => 'doctrine:database:create',
                 ]
             )
         );
@@ -72,7 +72,7 @@ class TestHelper
                 [
                     //'-q' => null,
                     '-e' => 'test',
-                    'command' => 'doctrine:schema:create'
+                    'command' => 'doctrine:schema:create',
                 ]
             )
         );
@@ -124,14 +124,13 @@ class TestHelper
             ', [
                 ':db' => $connection->getDatabase(),
             ])
-            ->fetchAll()
-        ;
+            ->fetchAll();
 
         if ($result) {
             $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0')->execute();
-            $tables = array_map([$connection, 'quoteIdentifier'], array_map('current', $result));
+            $tables = \array_map([$connection, 'quoteIdentifier'], \array_map('current', $result));
             foreach ($tables as $table) {
-                $connection->executeQuery(sprintf('TRUNCATE TABLE %s', $table))->execute();
+                $connection->executeQuery(\sprintf('TRUNCATE TABLE %s', $table))->execute();
             }
 
             $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1')->execute();

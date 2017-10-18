@@ -18,6 +18,6 @@ class TestKernel extends BaseTestKernel
             new \Imatic\Bundle\TestsTemplateBundle\Tests\Fixtures\TestProject\ImaticTestsTemplateBundle\AppImaticTestsTemplateBundle(),
         ];
 
-        return array_merge($parentBundles, $bundles);
+        return \array_merge($parentBundles, $bundles);
     }
 }
