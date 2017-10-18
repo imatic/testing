@@ -42,7 +42,7 @@ class InitTesting extends Command
 
     private function removeGitKeepFiles($path)
     {
-        $files = array_filter(scandir($path), function($fileName) {
+        $files = array_filter(scandir($path), function ($fileName) {
             return !in_array($fileName, ['.', '..']);
         });
 
@@ -58,7 +58,7 @@ class InitTesting extends Command
 
     private function updateTemplateFiles($path)
     {
-        $newFiles = array_filter(scandir($path), function($fileName) {
+        $newFiles = array_filter(scandir($path), function ($fileName) {
             return strpos($fileName, '.') !== 0;
         });
 
@@ -104,7 +104,7 @@ class InitTesting extends Command
     private function getBundleName()
     {
         $rootFiles = scandir(ROOT_DIR);
-        $bundleFiles = array_filter($rootFiles, function($fileName) {
+        $bundleFiles = array_filter($rootFiles, function ($fileName) {
             return preg_match('/Bundle.php$/', $fileName);
         });
 
