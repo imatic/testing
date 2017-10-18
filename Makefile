@@ -25,3 +25,7 @@ configure-pipelines: /usr/local/bin/composer
 	apt-get update
 	apt-get install --yes git
 
+.PHONY: phpda
+phpda:
+	./vendor/bin/phpda analyze phpda.yml || true #https://github.com/mamuz/PhpDependencyAnalysis/issues/29
+
