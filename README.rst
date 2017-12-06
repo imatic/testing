@@ -1,5 +1,10 @@
-[![Build Status](https://secure.travis-ci.org/imatic/testing.png?branch=master)](http://travis-ci.org/imatic/testing)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+.. image:: https://secure.travis-ci.org/imatic/testing.png?branch=master
+   :alt: Build Status
+   :target: http://travis-ci.org/imatic/testing
+|
+.. image:: https://img.shields.io/badge/License-MIT-yellow.svg
+   :alt: License: MIT
+   :target: LICENSE
 
 Testing
 =======
