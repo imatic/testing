@@ -1,3 +1,6 @@
+[![Build Status](https://secure.travis-ci.org/imatic/testing.png?branch=master)](http://travis-ci.org/imatic/testing)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Testing
 =======
 This `bundle <https://symfony.com/doc/current/bundles.html>`_ makes it easy to setup tests including testing project for reusable bundles. It will create all required files so that you can start writing your tests and visualise components of your bundle without necessity of including it into some application (as this bundle creates such application in testing namespace of your bundle).
