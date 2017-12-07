@@ -23,14 +23,14 @@ Initialize testing project
 ==========================
 
 * Add `phpunit.xml.dist <https://phpunit.de/manual/current/en/appendixes.configuration.html>`_ to your repository to configure `phpunit <https://phpunit.de/>`__
-* Set KERNEL_DIR server variable so that phpunit finds symfony kernel
+* Set KERNEL_DIR server variable so that phpunit finds symfony kernel (example value nees to be modified based on bundle name)
 
 .. sourcecode:: xml
 
    <!-- phpunit.xml.dist -->
    <phpunit>
        <php>
-           <server name="KERNEL_DIR" value="Tests/Fixtures/TestProject"/>
+           <server name="KERNEL_DIR" value="Imatic\Bundle\TestsTemplateBundle\Tests\Fixtures\TestProject\TestKernel"/>
        </php>
    </phpunit>
 
