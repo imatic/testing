@@ -25,7 +25,7 @@ class InitTesting extends Command
         \define('BUNDLE_NAME_HOLDER', 'TestsTemplate');
         \define('TESTS_DIR', ROOT_DIR . '/Tests');
         \define('TEST_PROJECT_ROOT_DIR', TESTS_DIR . '/Fixtures/TestProject');
-        \define('TEMPLATES_DIR', ROOT_DIR . '/vendor/imatic/testing-bundle/resources/skeleton/TestsTemplate');
+        \define('TEMPLATES_DIR', ROOT_DIR . '/vendor/imatic/testing/resources/skeleton/TestsTemplate');
 
         $this->fs = new FileSystem();
         $this->bundleName = $this->getBundleName();
