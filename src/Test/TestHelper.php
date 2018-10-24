@@ -44,7 +44,7 @@ class TestHelper
     protected function updateSchema(Application $application)
     {
         $dropDatabaseOptions = [
-             '-e' => 'test',
+            '-e' => 'test',
             '--force' => null,
             'command' => 'doctrine:database:drop',
         ];
@@ -84,17 +84,21 @@ class TestHelper
 
     protected function loadData(Application $application)
     {
-        // load fixtures
-        $application->run(
-            new ArrayInput(
-                [
-                    //'-q' => null,
-                    '-e' => 'test',
-                    'command' => 'doctrine:fixtures:load',
-                    '--no-interaction' => true,
-                ]
-            )
-        );
+        if (\array_key_exists(
+            'DoctrineFixturesBundle',
+            $application->getKernel()->getContainer()->getParameter('kernel.bundles')
+        )) {
+            // load fixtures
+            $application->run(
+                new ArrayInput(
+                    [
+                        '-e' => 'test',
+                        'command' => 'doctrine:fixtures:load',
+                        '--no-interaction' => true,
+                    ]
+                )
+            );
+        }
     }
 
     protected function isRunningOnMysql(Application $application)

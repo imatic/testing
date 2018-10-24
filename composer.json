@@ -1,5 +1,6 @@
 {
     "name": "imatic/testing",
+    "type": "library",
     "description": "Library to make testing of Symfony bundles easier",
     "keywords": ["testing", "symfony"],
     "homepage": "https://www.imatic.cz",
@@ -22,6 +23,9 @@
         "friendsofphp/php-cs-fixer": "^2.7",
         "phpmd/phpmd": "^2.6",
         "phpdocumentor/reflection-docblock": "4.1.1 as 3.1.1"
+    },
+    "suggest": {
+        "doctrine/doctrine-fixtures-bundle": "To use the doctrine fixtures"
     },
     "bin": [
         "bin/testingbundle-init"
