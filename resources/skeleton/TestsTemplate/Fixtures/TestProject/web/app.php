@@ -10,8 +10,6 @@ $_SERVER['PHP_AUTH_USER'] = 'user';
 $_SERVER['PHP_AUTH_PW'] = 'password';
 
 $kernel = new TestKernel();
-$kernel->loadClassCache();
-
 $request = Request::createFromGlobals();
 Request::enableHttpMethodParameterOverride();
 $response = $kernel->handle($request);
