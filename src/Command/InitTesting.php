@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Imatic\Testing\Command;
 
 use Symfony\Component\Console\Command\Command;
