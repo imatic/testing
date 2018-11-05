@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 namespace Imatic\Testing\Test\Unit\PHPUnit\Constraint;
 
 use Imatic\Testing\PHPUnit\Constraint\ResponseHasCode;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Miloslav Nenadal <miloslav.nenadal@imatic.cz>
  */
-class ResponseHasCodeTest extends PHPUnit_Framework_TestCase
+class ResponseHasCodeTest extends TestCase
 {
     public function testValidResponseShouldReturnTrue()
     {
@@ -23,7 +23,7 @@ class ResponseHasCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage Failed asserting that 404 is equal to 200 (response: "content").
      */
     public function testInvalidResponseShouldTrowExceptionWithContent()

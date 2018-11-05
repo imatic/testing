@@ -8,7 +8,7 @@
 
 Testing
 =======
-This `bundle <https://symfony.com/doc/current/bundles.html>`_ makes it easy to setup tests including testing project for reusable bundles. It will create all required files so that you can start writing your tests and visualise components of your bundle without necessity of including it into some application (as this bundle creates such application in testing namespace of your bundle).
+This library makes it easy to setup tests including testing project for reusable bundles. It will create all required files so that you can start writing your tests and visualise components of your bundle without necessity of including it into some application (as this library creates such application in testing namespace of your bundle).
 
 Content
 =======
@@ -214,6 +214,21 @@ Writing tests working with database
             connections:
                 default:
                     wrapper_class: "Imatic\\Testing\\Doctrine\\DBAL\\PersistedConnection"
+
+* if you want to load any fixtures, you need to require `DoctrineFixturesBundle <https://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html>`_
+  and specify any fixture. Our ``WebTestCase`` load fixtures automatically when ``DoctrineFixturesBundle`` is enabled.
+
+* before running tests database and fixtures is reloaded, if you want to disable this behavior, change env variable ``TESTING_DATA_INIT`` in your test configuration
+
+.. sourcecode:: xml
+
+   <!-- phpunit.xml.dist -->
+   <phpunit>
+       <php>
+           <env name="TESTING_DATA_INIT" value="0" />
+       </php>
+   </phpunit>
+
 
 Testing project configuration
 =============================

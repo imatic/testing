@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Imatic\Testing\Test;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -31,7 +31,10 @@ class WebTestCase extends BaseWebTestCase
 
         if (static::$firstContainer === null) {
             static::$firstContainer = $client->getContainer();
-            static::initData($kernel);
+
+            if ((bool) $client->getContainer()->getParameter('testing.data_init')) {
+                static::initData($kernel);
+            }
         }
         static::startTransaction();
 
