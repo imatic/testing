@@ -93,8 +93,17 @@ class PersistedConnection extends Connection
      */
     private function setTransactionNestingLevel($level)
     {
-        $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', '_transactionNestingLevel');
-        $prop->setAccessible(true);
+        static $prop = null;
+        if (!$prop) {
+            try {
+                // before doctrine/dbal 2.9
+                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', '_transactionNestingLevel');
+            } catch (\ReflectionException $e) {
+                // since doctrine/dbal 2.9
+                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', 'transactionNestingLevel');
+            }
+            $prop->setAccessible(true);
+        }
 
         return $prop->setValue($this, $level);
     }
@@ -127,7 +136,17 @@ class PersistedConnection extends Connection
      */
     protected function setConnected($connected)
     {
-        $isConnected = new \ReflectionProperty('Doctrine\DBAL\Connection', '_isConnected');
+        static $isConnected = null;
+        if (!$isConnected) {
+            try {
+                // before doctrine/dbal 2.9
+                $isConnected = new \ReflectionProperty('Doctrine\DBAL\Connection', '_isConnected');
+            } catch (\ReflectionException $e) {
+                // since doctrine/dbal 2.9
+                $isConnected = new \ReflectionProperty('Doctrine\DBAL\Connection', 'isConnected');
+            }
+        }
+
         $isConnected->setAccessible(true);
         $isConnected->setValue($this, $connected);
         $isConnected->setAccessible(false);
