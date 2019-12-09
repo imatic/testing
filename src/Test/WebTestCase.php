@@ -18,6 +18,7 @@ class WebTestCase extends BaseWebTestCase
     protected function tearDown(): void
     {
         static::rollbackTransaction();
+        parent::tearDown();
     }
 
     /**
