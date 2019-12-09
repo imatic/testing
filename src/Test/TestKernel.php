@@ -52,4 +52,14 @@ class TestKernel extends Kernel
     {
         return \get_called_class();
     }
+
+    public function getRootDir()
+    {
+        if (null === $this->rootDir) {
+            $r = new \ReflectionObject($this);
+            $this->rootDir = \dirname($r->getFileName());
+        }
+
+        return $this->rootDir;
+    }
 }
