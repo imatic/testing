@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class TestKernel extends Kernel
 {
     private $config;
+    private $rootDir;
 
     public function __construct()
     {
