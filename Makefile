@@ -1,13 +1,9 @@
 .PHONY: test
-test: phpunit phpmd phpcs
+test: phpunit phpcs
 
 .PHONY: phpcs
 phpcs:
 	./vendor/bin/php-cs-fixer fix --dry-run
-
-.PHONY: phpmd
-phpmd:
-	./vendor/bin/phpmd bin/,src/,tests/ text phpmd.xml
 
 .PHONY: phpunit
 phpunit:
