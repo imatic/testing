@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class TestKernel extends Kernel
 {
     private $config;
+    private $rootDir;
 
     public function __construct()
     {
@@ -51,5 +52,15 @@ class TestKernel extends Kernel
     public static function getClass()
     {
         return \get_called_class();
+    }
+
+    public function getRootDir()
+    {
+        if (null === $this->rootDir) {
+            $r = new \ReflectionObject($this);
+            $this->rootDir = \dirname($r->getFileName());
+        }
+
+        return $this->rootDir;
     }
 }

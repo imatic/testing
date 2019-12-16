@@ -15,9 +15,10 @@ class WebTestCase extends BaseWebTestCase
      */
     protected static $firstContainer;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         static::rollbackTransaction();
+        parent::tearDown();
     }
 
     /**
