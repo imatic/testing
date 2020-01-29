@@ -13,8 +13,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "^3.4|^4.0",
-        "doctrine/doctrine-bundle": "^1.4",
+        "symfony/framework-bundle": "^4.0",
+        "doctrine/doctrine-bundle": "^2.0",
         "symfony/monolog-bundle": "^3.0",
         "phpunit/phpunit": "^7.4"
     },
