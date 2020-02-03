@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Imatic\Testing\Test;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,7 +53,7 @@ class WebTestCase extends BaseWebTestCase
 
     protected static function startTransaction()
     {
-        foreach (static::$firstContainer->get('doctrine')->getManagers() as $om) {
+        foreach (static::$firstContainer->get(ManagerRegistry::class)->getManagers() as $om) {
             if ($om->getConnection()->isTransactionActive()) {
                 continue;
             }
@@ -67,7 +68,7 @@ class WebTestCase extends BaseWebTestCase
             return;
         }
 
-        foreach (static::$firstContainer->get('doctrine')->getManagers() as $om) {
+        foreach (static::$firstContainer->get(ManagerRegistry::class)->getManagers() as $om) {
             $connection = $om->getConnection();
 
             while ($connection->isTransactionActive()) {

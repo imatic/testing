@@ -15,8 +15,3 @@ update-test:
 
 /usr/local/bin/composer:
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-.PHONY: configure-pipelines
-configure-pipelines: /usr/local/bin/composer
-	apt-get update
-	apt-get install --yes git graphviz
