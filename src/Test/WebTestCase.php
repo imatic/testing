@@ -53,7 +53,7 @@ class WebTestCase extends BaseWebTestCase
 
     protected static function startTransaction()
     {
-        foreach (static::$firstContainer->get(ManagerRegistry::class)->getManagers() as $om) {
+        foreach (static::$container->get(ManagerRegistry::class)->getManagers() as $om) {
             if ($om->getConnection()->isTransactionActive()) {
                 continue;
             }
@@ -68,7 +68,7 @@ class WebTestCase extends BaseWebTestCase
             return;
         }
 
-        foreach (static::$firstContainer->get(ManagerRegistry::class)->getManagers() as $om) {
+        foreach (static::$container->get(ManagerRegistry::class)->getManagers() as $om) {
             $connection = $om->getConnection();
 
             while ($connection->isTransactionActive()) {
