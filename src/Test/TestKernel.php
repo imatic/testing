@@ -6,8 +6,8 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernel extends Kernel
 {
+    protected $rootDir;
     private $config;
-    private $rootDir;
 
     public function __construct()
     {
