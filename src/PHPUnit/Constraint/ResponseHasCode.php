@@ -9,15 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResponseHasCode extends Constraint
 {
-    /**
-     * @var Response
-     */
-    private $response;
+    private Response $response;
 
     public function __construct(Response $response)
     {
-        parent::__construct();
-
         $this->response = $response;
     }
 
