@@ -133,23 +133,30 @@ class PersistedConnection extends Connection
 
     /**
      * @param bool $connected
+     *
+     * @deprecated This is useless with newer versions of dbal
      */
     protected function setConnected($connected)
     {
         static $isConnected = null;
-        if (!$isConnected) {
-            try {
-                // before doctrine/dbal 2.9
-                $isConnected = new \ReflectionProperty('Doctrine\DBAL\Connection', '_isConnected');
-            } catch (\ReflectionException $e) {
-                // since doctrine/dbal 2.9
-                $isConnected = new \ReflectionProperty('Doctrine\DBAL\Connection', 'isConnected');
+        if ($isConnected === null) {
+            $connRef = new \ReflectionClass('Doctrine\DBAL\Connection');
+            if ($connRef->hasProperty('_isConnected')) { // before doctrine/dbal 2.9
+                $isConnected = $connRef->getProperty('_isConnected');
+            } elseif ($connRef->hasProperty('isConnected')) { // since doctrine/dbal 2.9
+                $isConnected = $connRef->getProperty('isConnected');
+            } else {
+                // New versions of dbal don't have connected property.
+                // They test if connection property is null.
+                $isConnected = false;
             }
         }
 
-        $isConnected->setAccessible(true);
-        $isConnected->setValue($this, $connected);
-        $isConnected->setAccessible(false);
+        if ($isConnected !== false) {
+            $isConnected->setAccessible(true);
+            $isConnected->setValue($this, $connected);
+            $isConnected->setAccessible(false);
+        }
     }
 
     /**
