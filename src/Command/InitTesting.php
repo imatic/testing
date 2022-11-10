@@ -36,6 +36,8 @@ class InitTesting extends Command
         $this->updateTemplateFiles(TESTS_DIR);
         $this->makeCacheAndLogDirs();
         $this->updateGitignore();
+
+        return 0;
     }
 
     private function removeGitKeepFiles($path)

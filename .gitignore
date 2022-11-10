@@ -1,8 +1,9 @@
 /vendor/
 /.idea
 /phpunit.xml
+/.phpunit.result.cache
 /nbproject
 /.DS_Store
-/.php_cs.cache
+/.php-cs-fixer.cache
 /phpda.svg
 
