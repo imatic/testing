@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
         backupGlobals="false"
         colors="true"
         stopOnFailure="false"
         bootstrap="tests/bootstrap.php"
-        cacheDirectory=".phpunit.cache"
 >
-
     <testsuites>
         <testsuite name="Imatic Testing Bundle">
             <directory>./tests</directory>
