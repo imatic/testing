@@ -3,6 +3,7 @@ namespace Imatic\Testing\Test;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -25,7 +26,7 @@ class WebTestCase extends BaseWebTestCase
     /**
      * {@inheritDoc}
      */
-    protected static function createClient(array $options = [], array $server = [])
+    protected static function createClient(array $options = [], array $server = []): KernelBrowser
     {
         $server = \array_merge($server, ['PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password']);
         $client = parent::createClient($options, $server);
@@ -53,7 +54,7 @@ class WebTestCase extends BaseWebTestCase
 
     protected static function startTransaction()
     {
-        foreach (static::$container->get(ManagerRegistry::class)->getManagers() as $om) {
+        foreach (static::getContainer()->get(ManagerRegistry::class)->getManagers() as $om) {
             if ($om->getConnection()->isTransactionActive()) {
                 continue;
             }
@@ -68,7 +69,7 @@ class WebTestCase extends BaseWebTestCase
             return;
         }
 
-        foreach (static::$container->get(ManagerRegistry::class)->getManagers() as $om) {
+        foreach (static::getContainer()->get(ManagerRegistry::class)->getManagers() as $om) {
             $connection = $om->getConnection();
 
             while ($connection->isTransactionActive()) {
