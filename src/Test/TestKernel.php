@@ -21,7 +21,7 @@ class TestKernel extends Kernel
         $this->config = $config;
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
