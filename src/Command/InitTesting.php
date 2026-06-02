@@ -19,7 +19,7 @@ class InitTesting extends Command
             ->setName('init:testing');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         \define('ROOT_DIR', __DIR__ . '/../../../../..');
         \define('BUNDLE_NAME_HOLDER', 'TestsTemplate');

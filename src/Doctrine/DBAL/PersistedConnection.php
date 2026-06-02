@@ -88,24 +88,23 @@ class PersistedConnection extends Connection
         $this->wrapTransactionNestingLevel('rollBack');
     }
 
-    /**
-     * @param int $level
-     */
-    private function setTransactionNestingLevel($level)
+    private function setTransactionNestingLevel(int $level)
     {
         static $prop = null;
         if (!$prop) {
             try {
                 // before doctrine/dbal 2.9
-                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', '_transactionNestingLevel');
+                $prop = new \ReflectionProperty(Connection::class, '_transactionNestingLevel');
             } catch (\ReflectionException $e) {
                 // since doctrine/dbal 2.9
-                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', 'transactionNestingLevel');
+                $prop = new \ReflectionProperty(Connection::class, 'transactionNestingLevel');
             }
-            $prop->setAccessible(true);
+            if (\PHP_VERSION_ID < 80100) {
+                $prop->setAccessible(true);
+            }
         }
 
-        return $prop->setValue($this, $level);
+        $prop->setValue($this, $level);
     }
 
     /**
@@ -120,7 +119,7 @@ class PersistedConnection extends Connection
         $this->setTransactionNestingLevel($this->getPersistedTransactionNestingLevel());
 
         try {
-            \call_user_func(['parent', $method]);
+            parent::{$method}();
         } catch (\Exception $e) {
         }
 
@@ -140,7 +139,7 @@ class PersistedConnection extends Connection
     {
         static $isConnected = null;
         if ($isConnected === null) {
-            $connRef = new \ReflectionClass('Doctrine\DBAL\Connection');
+            $connRef = new \ReflectionClass(Connection::class);
             if ($connRef->hasProperty('_isConnected')) { // before doctrine/dbal 2.9
                 $isConnected = $connRef->getProperty('_isConnected');
             } elseif ($connRef->hasProperty('isConnected')) { // since doctrine/dbal 2.9
@@ -153,16 +152,17 @@ class PersistedConnection extends Connection
         }
 
         if ($isConnected !== false) {
-            $isConnected->setAccessible(true);
+            if (\PHP_VERSION_ID < 80100) {
+                $isConnected->setAccessible(true);
+            }
             $isConnected->setValue($this, $connected);
-            $isConnected->setAccessible(false);
+            if (\PHP_VERSION_ID < 80100) {
+                $isConnected->setAccessible(false);
+            }
         }
     }
 
-    /**
-     * @return int
-     */
-    protected function getPersistedTransactionNestingLevel()
+    protected function getPersistedTransactionNestingLevel(): int
     {
         if (isset(static::$persistedTransactionNestingLevels[$this->getConnectionId()])) {
             return static::$persistedTransactionNestingLevels[$this->getConnectionId()];
@@ -171,10 +171,7 @@ class PersistedConnection extends Connection
         return 0;
     }
 
-    /**
-     * @param int $level
-     */
-    protected function persistTransactionNestingLevel($level)
+    protected function persistTransactionNestingLevel(int $level)
     {
         static::$persistedTransactionNestingLevels[$this->getConnectionId()] = $level;
     }
