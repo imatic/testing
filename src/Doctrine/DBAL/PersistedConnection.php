@@ -44,10 +44,7 @@ class PersistedConnection extends Connection
      */
     protected static $persistedTransactionNestingLevels;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function connect()
+    public function connect(): bool
     {
         if ($this->isConnected()) {
             return false;
@@ -61,31 +58,30 @@ class PersistedConnection extends Connection
             $this->persistConnection($this->_conn);
         }
 
+        $this->setNestTransactionsWithSavepoints(true);
+
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         $this->wrapTransactionNestingLevel('beginTransaction');
+
+        return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         $this->wrapTransactionNestingLevel('commit');
+
+        return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function rollBack()
+    public function rollBack(): bool
     {
         $this->wrapTransactionNestingLevel('rollBack');
+
+        return true;
     }
 
     private function setTransactionNestingLevel(int $level)
