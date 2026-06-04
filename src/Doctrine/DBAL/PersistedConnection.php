@@ -84,7 +84,7 @@ class PersistedConnection extends Connection
         return true;
     }
 
-    private function setTransactionNestingLevel(int $level)
+    private function setTransactionNestingLevel(int $level): void
     {
         static $prop = null;
         if (!$prop) {
@@ -94,9 +94,6 @@ class PersistedConnection extends Connection
             } catch (\ReflectionException $e) {
                 // since doctrine/dbal 2.9
                 $prop = new \ReflectionProperty(Connection::class, 'transactionNestingLevel');
-            }
-            if (\PHP_VERSION_ID < 80100) {
-                $prop->setAccessible(true);
             }
         }
 
@@ -108,7 +105,7 @@ class PersistedConnection extends Connection
      *
      * @throws \Exception
      */
-    private function wrapTransactionNestingLevel($method)
+    private function wrapTransactionNestingLevel(string $method): void
     {
         $e = null;
 
@@ -131,7 +128,7 @@ class PersistedConnection extends Connection
      *
      * @deprecated This is useless with newer versions of dbal
      */
-    protected function setConnected($connected)
+    protected function setConnected(bool $connected): void
     {
         static $isConnected = null;
         if ($isConnected === null) {
@@ -148,13 +145,7 @@ class PersistedConnection extends Connection
         }
 
         if ($isConnected !== false) {
-            if (\PHP_VERSION_ID < 80100) {
-                $isConnected->setAccessible(true);
-            }
             $isConnected->setValue($this, $connected);
-            if (\PHP_VERSION_ID < 80100) {
-                $isConnected->setAccessible(false);
-            }
         }
     }
 
@@ -167,7 +158,7 @@ class PersistedConnection extends Connection
         return 0;
     }
 
-    protected function persistTransactionNestingLevel(int $level)
+    protected function persistTransactionNestingLevel(int $level): void
     {
         static::$persistedTransactionNestingLevels[$this->getConnectionId()] = $level;
     }
@@ -175,7 +166,7 @@ class PersistedConnection extends Connection
     /**
      * @param DriverConnection $connection
      */
-    protected function persistConnection(DriverConnection $connection)
+    protected function persistConnection(DriverConnection $connection): void
     {
         static::$persistedConnections[$this->getConnectionId()] = $connection;
     }
@@ -183,7 +174,7 @@ class PersistedConnection extends Connection
     /**
      * @return bool
      */
-    protected function hasPersistedConnection()
+    protected function hasPersistedConnection(): bool
     {
         return isset(static::$persistedConnections[$this->getConnectionId()]);
     }
@@ -191,7 +182,7 @@ class PersistedConnection extends Connection
     /**
      * @return DriverConnection
      */
-    protected function getPersistedConnection()
+    protected function getPersistedConnection(): DriverConnection
     {
         return static::$persistedConnections[$this->getConnectionId()];
     }
@@ -199,7 +190,7 @@ class PersistedConnection extends Connection
     /**
      * @return string
      */
-    protected function getConnectionId()
+    protected function getConnectionId(): string
     {
         return \md5(\serialize($this->getParams()));
     }
