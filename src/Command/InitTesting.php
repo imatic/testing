@@ -13,7 +13,7 @@ class InitTesting extends Command
 
     private $bundleName;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('init:testing');
