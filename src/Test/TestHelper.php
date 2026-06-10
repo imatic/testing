@@ -2,7 +2,6 @@
 namespace Imatic\Testing\Test;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
