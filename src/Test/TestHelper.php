@@ -2,8 +2,8 @@
 namespace Imatic\Testing\Test;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Filesystem\Filesystem;
@@ -55,16 +55,17 @@ class TestHelper
         // drop database
         $application->run(new ArrayInput($dropDatabaseOptions));
 
-        // create database
-        $application->run(
-            new ArrayInput(
-                [
-                    //'-q' => null,
-                    '-e' => 'test',
-                    'command' => 'doctrine:database:create',
-                ]
-            )
-        );
+        // create database (SQLite creates its file automatically on schema:create)
+        if (!$this->isRunningOnSqlite($application)) {
+            $application->run(
+                new ArrayInput(
+                    [
+                        '-e' => 'test',
+                        'command' => 'doctrine:database:create',
+                    ]
+                )
+            );
+        }
 
         // create schema
         $application->run(
@@ -101,13 +102,26 @@ class TestHelper
         }
     }
 
-    protected function isRunningOnMysql(Application $application)
+    protected function isRunningOnMysql(Application $application): bool
     {
         $container = $application->getKernel()->getContainer();
         if ($container->has('doctrine.dbal.default_connection')) {
             /* @var $connection Connection */
             $connection = $container->get('doctrine.dbal.default_connection');
-            if ($connection->getDatabasePlatform() instanceof MySqlPlatform) {
+            if ($connection->getDatabasePlatform() instanceof MySQLPlatform) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function isRunningOnSqlite(Application $application): bool
+    {
+        $container = $application->getKernel()->getContainer();
+        if ($container->has('doctrine.dbal.default_connection')) {
+            $connection = $container->get('doctrine.dbal.default_connection');
+            if ($connection->getDatabasePlatform() instanceof SQLitePlatform) {
                 return true;
             }
         }
@@ -128,16 +142,16 @@ class TestHelper
             ', [
                 ':db' => $connection->getDatabase(),
             ])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         if ($result) {
-            $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0')->execute();
+            $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
             $tables = \array_map([$connection, 'quoteIdentifier'], \array_map('current', $result));
             foreach ($tables as $table) {
-                $connection->executeQuery(\sprintf('TRUNCATE TABLE %s', $table))->execute();
+                $connection->executeStatement(\sprintf('TRUNCATE TABLE %s', $table));
             }
 
-            $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1')->execute();
+            $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
         }
     }
 
@@ -165,7 +179,7 @@ class TestHelper
 
         try {
             $connection->getDatabasePlatform()->getListDatabasesSQL();
-        } catch (DBALException $e) {
+        } catch (\Throwable $e) {
             return false;
         }
 

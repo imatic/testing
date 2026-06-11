@@ -34,93 +34,72 @@ use Doctrine\DBAL\Driver\Connection as DriverConnection;
  */
 class PersistedConnection extends Connection
 {
-    /**
-     * @var DriverConnection[]
-     */
-    protected static $persistedConnections;
+    /** @var DriverConnection[] */
+    protected static array $persistedConnections = [];
 
-    /**
-     * @var int[]
-     */
-    protected static $persistedTransactionNestingLevels;
+    /** @var int[] */
+    protected static array $persistedTransactionNestingLevels = [];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function connect()
+    public function connect(): DriverConnection
     {
         if ($this->isConnected()) {
-            return false;
+            return parent::connect();
         }
 
         if ($this->hasPersistedConnection()) {
-            $this->_conn = $this->getPersistedConnection();
-            $this->setConnected(true);
-        } else {
-            parent::connect();
-            $this->persistConnection($this->_conn);
+            $this->injectDriverConnection($this->getPersistedConnection());
+
+            return $this->getPersistedConnection();
         }
 
-        return true;
+        $conn = parent::connect();
+        $this->persistConnection($conn);
+
+        return $conn;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->wrapTransactionNestingLevel('beginTransaction');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function commit()
+    public function commit(): void
     {
         $this->wrapTransactionNestingLevel('commit');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function rollBack()
+    public function rollBack(): void
     {
         $this->wrapTransactionNestingLevel('rollBack');
     }
 
-    /**
-     * @param int $level
-     */
-    private function setTransactionNestingLevel($level)
+    private function injectDriverConnection(DriverConnection $connection): void
     {
         static $prop = null;
-        if (!$prop) {
-            try {
-                // before doctrine/dbal 2.9
-                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', '_transactionNestingLevel');
-            } catch (\ReflectionException $e) {
-                // since doctrine/dbal 2.9
-                $prop = new \ReflectionProperty('Doctrine\DBAL\Connection', 'transactionNestingLevel');
-            }
-            $prop->setAccessible(true);
+        if ($prop === null) {
+            $prop = new \ReflectionProperty(Connection::class, '_conn');
         }
-
-        return $prop->setValue($this, $level);
+        $prop->setValue($this, $connection);
     }
 
-    /**
-     * @param string $method
-     *
-     * @throws \Exception
-     */
-    private function wrapTransactionNestingLevel($method)
+    private function setTransactionNestingLevel(int $level): void
+    {
+        static $prop = null;
+        if ($prop === null) {
+            $prop = new \ReflectionProperty(Connection::class, 'transactionNestingLevel');
+        }
+        $prop->setValue($this, $level);
+    }
+
+    /** @throws \Exception */
+    private function wrapTransactionNestingLevel(string $method): void
     {
         $e = null;
 
         $this->setTransactionNestingLevel($this->getPersistedTransactionNestingLevel());
 
         try {
-            \call_user_func(['parent', $method]);
+            parent::{$method}();
         } catch (\Exception $e) {
         }
 
@@ -131,82 +110,32 @@ class PersistedConnection extends Connection
         }
     }
 
-    /**
-     * @param bool $connected
-     *
-     * @deprecated This is useless with newer versions of dbal
-     */
-    protected function setConnected($connected)
+    protected function getPersistedTransactionNestingLevel(): int
     {
-        static $isConnected = null;
-        if ($isConnected === null) {
-            $connRef = new \ReflectionClass('Doctrine\DBAL\Connection');
-            if ($connRef->hasProperty('_isConnected')) { // before doctrine/dbal 2.9
-                $isConnected = $connRef->getProperty('_isConnected');
-            } elseif ($connRef->hasProperty('isConnected')) { // since doctrine/dbal 2.9
-                $isConnected = $connRef->getProperty('isConnected');
-            } else {
-                // New versions of dbal don't have connected property.
-                // They test if connection property is null.
-                $isConnected = false;
-            }
-        }
-
-        if ($isConnected !== false) {
-            $isConnected->setAccessible(true);
-            $isConnected->setValue($this, $connected);
-            $isConnected->setAccessible(false);
-        }
+        return static::$persistedTransactionNestingLevels[$this->getConnectionId()] ?? 0;
     }
 
-    /**
-     * @return int
-     */
-    protected function getPersistedTransactionNestingLevel()
-    {
-        if (isset(static::$persistedTransactionNestingLevels[$this->getConnectionId()])) {
-            return static::$persistedTransactionNestingLevels[$this->getConnectionId()];
-        }
-
-        return 0;
-    }
-
-    /**
-     * @param int $level
-     */
-    protected function persistTransactionNestingLevel($level)
+    protected function persistTransactionNestingLevel(int $level): void
     {
         static::$persistedTransactionNestingLevels[$this->getConnectionId()] = $level;
     }
 
-    /**
-     * @param DriverConnection $connection
-     */
-    protected function persistConnection(DriverConnection $connection)
+    protected function persistConnection(DriverConnection $connection): void
     {
         static::$persistedConnections[$this->getConnectionId()] = $connection;
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasPersistedConnection()
+    protected function hasPersistedConnection(): bool
     {
         return isset(static::$persistedConnections[$this->getConnectionId()]);
     }
 
-    /**
-     * @return DriverConnection
-     */
-    protected function getPersistedConnection()
+    protected function getPersistedConnection(): DriverConnection
     {
         return static::$persistedConnections[$this->getConnectionId()];
     }
 
-    /**
-     * @return string
-     */
-    protected function getConnectionId()
+    protected function getConnectionId(): string
     {
         return \md5(\serialize($this->getParams()));
     }

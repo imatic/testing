@@ -13,13 +13,13 @@ class InitTesting extends Command
 
     private $bundleName;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('init:testing');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         \define('ROOT_DIR', __DIR__ . '/../../../../..');
         \define('BUNDLE_NAME_HOLDER', 'TestsTemplate');
